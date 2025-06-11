@@ -197,34 +197,157 @@ void on_deleteButton_clicked(){
    }
 }
 
-void on_generateButton_clicked(){
+void on_generateButton_clicked() {
     html = fopen("index.html", "w");
-    css = fopen ("style.css", "w");
+    css = fopen("style.css", "w");
 
-    fprintf (html, "<html lang=\"en\"> <head> <meta charset=\"utf-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>%s</title> <link rel=\"stylesheet\" href=\"style.css\" /> </head> <body> <div class=\"cv\"> <div class=\"total\"> <div class=\"header\"> <h1>%s</h1> <h3>%s</h3> </div> <div class=\"details\"> <span class=\"info\"><a title=\"Get in touch\" target=\"_blank\" href=\"mailto:%s\">%s</a></span> <span class=\"separator\">|</span> <span class=\"info\"><a title=\"Call %s\" href=\"tel:%s\">%s</a></span> <span class=\"separator\">|</span> <span class=\"info\">%s</span> <span class=\"separator\">|</span> <span class=\"info\">%s</span> </div> </div> <div class=\"main\"> <!-- PROFILE SUMMARY --> <div class=\"section\"> <div class=\"section-title\"><span>PROFILE SUMMARY</span></div> <p> <div class=\"profile-summary-lines\"> %s <br> </div> </p> </div> <!-- SKILLS --> <div class=\"section\"> <div class=\"section-title\"><span>SKILLS</span></div> <div class=\"skills\"> <div class=\"skill-block\"> <div class=\"skill-title\">BUSINESS SKILLS</div> <div class=\"skill-description\"> %s </div> </div> <div class=\"skill-block\"> <div class=\"skill-title\">TECHNICAL SKILLS</div> <div class=\"skill-description\"> %s </div> </div> </div> </div>",
-             user.name, user.name, user.title, user.email, user.email, user.name, user.phone, user.phone, user.dob, user.location, user.summary, skill.business, skill.tech);
+    fprintf(html,
+        "<!DOCTYPE html>\n"
+        "<html lang=\"en\">\n"
+        "<head>\n"
+        "  <meta charset=\"UTF-8\">\n"
+        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+        "  <title>%s</title>\n"
+        "  <link rel=\"stylesheet\" href=\"style.css\">\n"
+        "</head>\n"
+        "<body>\n"
+        "<div class=\"cv\">\n",
 
-    fprintf (html, "<div class=\"section\"> <div class=\"section-title\"><span>EXPERIENCE</span></div> <div class=\"projects\">");
+        user.name
+    );
 
-    for (int i=0 ; i < experienceCounter ; i++)
-        fprintf (html, "<div class=\"skill-block\"> <div class=\"skill-title\">%s</div> <div class=\"skill-description\"> <strong>Entity:</strong> %s<br /> <strong>Start Date:</strong> %s<br /><br /> %s </div> </div>", expArray[i].job, expArray[i].entity, expArray[i].date, expArray[i].description );
+    fprintf(html,
+        "  <header class=\"header\">\n"
+        "    <h1>%s</h1>\n"
+        "    <h3>%s</h3>\n"
+        "    <p><a href=\"mailto:%s\">%s</a> | %s | %s | %s</p>\n"
+        "  </header>\n",
+        user.name, user.title, user.email, user.email, user.phone, user.dob, user.location
+    );
 
-    fprintf (html, "</div> </div> <!-- EDUCATION --> <div class=\"section\"> <div class=\"section-title\"><span>EDUCATION</span></div> <div class=\"education\">");
+    fprintf(html,
+        "  <section>\n"
+        "    <h2>Profile Summary</h2>\n"
+        "    <p>%s</p>\n"
+        "  </section>\n",
+        user.summary
+    );
 
-    for (int i=0 ; i < educationCounter ; i++)
-        fprintf (html, "<div class=\"skill-block\"> <div class=\"skill-title\">%s</div> <div class=\"skill-description\"> Institution: %s<br /> Start Date: %s<br /> End Date: %s </div> </div>", eduArray[i].degree, eduArray[i].school, eduArray[i].startDate, eduArray[i].endDate );
+    fprintf(html,
+        "  <section>\n"
+        "    <h2>Skills</h2>\n"
+        "    <h3>Business Skills</h3>\n"
+        "    <p>%s</p>\n"
+        "    <h3>Technical Skills</h3>\n"
+        "    <p>%s</p>\n"
+        "  </section>\n",
+        skill.business, skill.tech
+    );
 
-    fprintf (html, "</div> </div> <!-- LANGUAGES --> <div class=\"section\"> <div class=\"section-title\"><span>LANGUAGES</span></div>");
+    fprintf(html,
+        "  <section>\n"
+        "    <h2>Experience</h2>\n");
 
-    for (int i=0 ; i < languagesCounter ; i++)
-        fprintf (html, "<div class=\"skill-block\"> <div class=\"skill-description\"> %s , %s<br /> </div> </div>", langArray[i].language, langArray[i].comboBox );
+    for (int i = 0; i < experienceCounter; i++) {
+        fprintf(html,
+            "    <div class=\"item\">\n"
+            "      <h3>%s</h3>\n"
+            "      <p><strong>Entity:</strong> %s</p>\n"
+            "      <p><strong>Date:</strong> %s</p>\n"
+            "      <p>%s</p>\n"
+            "    </div>\n",
+            expArray[i].job, expArray[i].entity, expArray[i].date, expArray[i].description
+        );
+    }
 
-    fprintf (html, "</div></div></div></body></html>");
+    fprintf(html, "  </section>\n");
 
-    fprintf (css, "@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap'); body { font-family:\"Raleway\", sans-serif; background-color: #f5f5f5; padding: 20px 0; color: #333; line-height: 1.6; } .cv { display: flex; flex-direction: column; width: 90%; max-width: 900px; margin: auto; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 30px; } h1, h2, h3 { color: teal; margin: 0; } h1 { font-size: 28px; text-transform: uppercase; } h3 { font-size: 18px; font-weight: normal; margin-top: 5px; } .total { display: flex; flex-direction: column; align-items: center; background-color: white; padding: 10px; } .header { display: flex; flex-direction: column; align-items: center; background-color: white; margin-bottom: 15px; } .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; text-align: center; padding: 10px 0; font-size: 1rem; line-height: 1.6; color: #333; } .details .info { display: inline-block; margin: 0 10px; white-space: nowrap; } .details .separator { margin: 0 10px; color: #888; } .details a { text-decoration: none; color: teal; font-weight: bold; } .details a:hover { text-decoration: underline; } .main > div { margin: 20px 0; display: flex; flex-direction: column; background-color: white; } .profile-summary-lines { line-height: 1.6; padding: 0 20px; } .skills { padding: 0 20px; } .skill-block { display: grid; grid-template-columns: 200px 1fr; gap: 20px; margin-bottom: 20px; align-items: start; } .skill-title { font-weight: bold; text-transform: uppercase; color: #333; } .skill-description { text-align: justify; color: #444; line-height: 1.6; } .section { margin: 30px 0; } .section-title { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-weight: bold; font-size: 22px; color: teal; } .section-title::before, .section-title::after { content: ""; flex: 1; border-bottom: 2px solid teal; margin: 0 12px; } .section-title span { font-size: 24px; color: teal; font-weight: bold; letter-spacing: 1px; } .projects a, .education a { text-decoration: none; color: teal; font-weight: bold; } .projects a:hover, .education a:hover { text-decoration: underline; } ul { padding-left: 20px; margin: 10px 0; } li { margin-bottom: 5px; } @media screen and (max-width: 600px) { .cv { width: 95%; padding: 15px; } .details { flex-direction: column; gap: 5px; font-size: 14px; display: flex; align-items: center; } .details .separator { display: none; } .details .info { margin: 5px 0; } h1 { font-size: 22px; } h3 { font-size: 14px; } .skill-block { grid-template-columns: 1fr; } .section-title span { font-size: 18px; } .skill-title { font-size: 16px; } .skill-description { font-size: 14px; } }");
+    fprintf(html,
+        "  <section>\n"
+        "    <h2>Education</h2>\n");
 
-    fclose (html);
-    fclose (css);
+    for (int i = 0; i < educationCounter; i++) {
+        fprintf(html,
+            "    <div class=\"item\">\n"
+            "      <h3>%s</h3>\n"
+            "      <p><strong>Institution:</strong> %s</p>\n"
+            "      <p><strong>Start:</strong> %s - <strong>End:</strong> %s</p>\n"
+            "    </div>\n",
+            eduArray[i].degree, eduArray[i].school, eduArray[i].startDate, eduArray[i].endDate
+        );
+    }
+
+    fprintf(html, "  </section>\n");
+
+    fprintf(html,
+        "  <section>\n"
+        "    <h2>Languages</h2>\n");
+
+    for (int i = 0; i < languagesCounter; i++) {
+        fprintf(html,
+            "    <div class=\"item\">\n"
+            "      <p><strong>%s</strong>: %s</p>\n"
+            "    </div>\n",
+            langArray[i].language, langArray[i].comboBox
+        );
+    }
+
+    fprintf(html,
+        "  </section>\n"
+        "</div>\n"
+        "</body>\n"
+        "</html>\n");
+
+    fprintf(css,
+        "body {\n"
+        "  font-family: 'Segoe UI', sans-serif;\n"
+        "  background-color: #f9f9f9;\n"
+        "  margin: 0;\n"
+        "  padding: 0;\n"
+        "}\n"
+        ".cv {\n"
+        "  max-width: 800px;\n"
+        "  margin: 30px auto;\n"
+        "  background-color: #fff;\n"
+        "  padding: 20px 30px;\n"
+        "  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n"
+        "}\n"
+        ".header {\n"
+        "  text-align: center;\n"
+        "  border-bottom: 1px solid #ccc;\n"
+        "  padding-bottom: 10px;\n"
+        "  margin-bottom: 20px;\n"
+        "}\n"
+        "section {\n"
+        "  margin-bottom: 30px;\n"
+        "}\n"
+        "h1 {\n"
+        "  font-size: 28px;\n"
+        "  margin-bottom: 5px;\n"
+        "}\n"
+        "h2 {\n"
+        "  font-size: 22px;\n"
+        "  color: teal;\n"
+        "  border-bottom: 2px solid teal;\n"
+        "  padding-bottom: 5px;\n"
+        "}\n"
+        "h3 {\n"
+        "  margin-top: 10px;\n"
+        "  color: #444;\n"
+        "}\n"
+        ".item {\n"
+        "  margin-top: 10px;\n"
+        "  padding: 10px;\n"
+        "  background-color: #f3f3f3;\n"
+        "  border-radius: 5px;\n"
+        "}\n"
+        "p {\n"
+        "  margin: 5px 0;\n"
+        "}\n"
+    );
+
+    fclose(html);
+    fclose(css);
 }
 
 
