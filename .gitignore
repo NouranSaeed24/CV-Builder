@@ -7,6 +7,16 @@
 *.obj
 *.elf
 
+# ملفات HTML/CSS الناتجة من البرنامج
+index.html
+style.css
+
+# ملفات Glade الاحتياطية
+*~.glade
+
+# ملفات الأيقونات
+*.ico
+
 # Linker output
 *.ilk
 *.map
